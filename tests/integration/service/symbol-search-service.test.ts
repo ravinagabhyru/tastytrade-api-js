@@ -6,11 +6,15 @@ const client = new TastytradeHttpClient(process.env.BASE_URL!)
 const symbolSearchService = new SymbolSearchService(client)
 
 beforeAll(async () => {
+  console.log(process.env.BASE_URL!);
+  console.log(process.env.API_USERNAME!);
+  console.log(process.env.API_PASSWORD!);
+
   const sessionService = new SessionService(client)
   await sessionService.login(process.env.API_USERNAME!, process.env.API_PASSWORD!)
 });
 
-describe('getEffectiveMarginRequirements', () => {
+describe('getSymbolData', () => {
   it('responds with the correct data', async function() {
     const equitySymbol = 'AAPL'
     const response = await symbolSearchService.getSymbolData(equitySymbol)

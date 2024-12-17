@@ -77,12 +77,11 @@ describe('getQuantityDecimalPrecisions', () => {
 describe('getNestedOptionChain', () => {
   it('responds with the correct data', async function() {
     const response = await instrumentsService.getNestedOptionChain('AAPL')
-    expect(response.length).toBeGreaterThan(0);
+    expect(response.expirations).toBeDefined();
 
     // Fetch a single option
-    const optionChain = _.first(response) as any
-    const optionExpiration = _.first(optionChain.expirations) as any
-    const optionStrike = _.first(optionExpiration.strikes) as any
+    const optionExpirations = _.first(response.expirations) as any
+    const optionStrike = _.first(optionExpirations.strikes) as any
     const equityOption = await instrumentsService.getSingleEquityOption(optionStrike.call)
     expect(equityOption.symbol).toBe(optionStrike.call)
   })

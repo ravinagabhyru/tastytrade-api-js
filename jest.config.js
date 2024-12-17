@@ -18,6 +18,7 @@ const config = {
     ],
   },
   transformIgnorePatterns: ['<rootDir>/node_modules/'],
+  testTimeout: 10000,
 };
 
 export default config;
