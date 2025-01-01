@@ -17,6 +17,8 @@ export default function Balances() {
 
     const balances = responseData
 
+    console.log(balances)
+
     if (_.isNil(context.accountNumbers)) {
       return <p>Loading...</p>
     }

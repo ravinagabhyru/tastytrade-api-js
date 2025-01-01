@@ -1,35 +1,39 @@
 // Order types
 export interface OrderLeg {
-    'instrument-type': string;
+    'instrument-type': 'Equity' | 'Equity Option' | 'Future' | 'Future Option' | 'Cryptocurrency';
     'symbol': string;
-    'quantity': number;
-    'action': 'Buy' | 'Sell';
-    'side': 'Open' | 'Close';
+    'quantity'?: number;  // Not required for Notional Market orders
+    'action': 'Buy to Open' | 'Buy to Close' | 'Sell to Open' | 'Sell to Close';
 }
 
 export interface Order {
-    'id': number;
-    'account-number': string;
     'time-in-force': 'Day' | 'GTC' | 'GTD';
-    'order-type': 'Limit' | 'Market' | 'Stop' | 'Stop Limit';
-    'size': number;
-    'underlying-symbol': string;
-    'price': number;
-    'price-effect': string;
-    'status': string;
+    'order-type': 'Limit' | 'Market' | 'Stop' | 'Stop Limit' | 'Notional Market';
+    'price'?: number;  // Required for Limit and Stop Limit orders
+    'price-effect'?: 'Credit' | 'Debit';  // Required for Limit and Stop Limit orders
+    'value'?: number;  // Required for Notional Market orders
+    'value-effect'?: 'Credit' | 'Debit';  // Required for Notional Market orders
+    'stop-trigger'?: number;  // Required for Stop and Stop Limit orders
+    'gtc-date'?: string;  // Required for GTD orders, format: yyyy-mm-dd
+    'source'?: string;  // Optional: Designates where the order originated
     'legs': OrderLeg[];
+    'advanced-instructions'?: {
+        'strict-position-effect-validation'?: boolean;
+    };
+    // Response-only fields below
+    'id'?: number;
+    'account-number'?: string;
+    'status'?: string;
     'complex-order-id'?: number;
     'complex-order-tag'?: string;
-    'cancellable': boolean;
-    'editable': boolean;
-    'edited': boolean;
+    'cancellable'?: boolean;
+    'editable'?: boolean;
+    'edited'?: boolean;
     'contingent-status'?: string;
     'triggered'?: boolean;
-    'trigger-price'?: number;
-    'stop-triggered'?: boolean;
     'routing-status'?: string;
-    'updated-at': string;
-    'created-at': string;
+    'updated-at'?: string;
+    'created-at'?: string;
 }
 
 export interface OrderResponse {
