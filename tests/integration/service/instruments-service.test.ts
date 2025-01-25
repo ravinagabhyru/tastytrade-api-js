@@ -1,6 +1,6 @@
-import InstrumentsService from "../../../lib/services/instruments-service"
-import TastytradeHttpClient from "../../../lib/services/tastytrade-http-client"
-import SessionService from "../../../lib/services/session-service"
+import InstrumentsService from "../../../lib/services/instruments-service.js";
+import TastytradeHttpClient from "../../../lib/services/tastytrade-http-client.js";
+import SessionService from "../../../lib/services/session-service.js";
 import _ from 'lodash'
 
 const client = new TastytradeHttpClient(process.env.BASE_URL!)

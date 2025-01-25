@@ -1,3 +1,12 @@
+/**
+ * Balance field definitions from API docs:
+ * 
+ * net-liquidating-value: The total current value of the account. Shows how much cash you would end up with if you closed all positions.
+ * pending-cash: Cash that is in a holding period temporarily while a cash transfer is processed. 
+ * pending-cash-effect: Will be Credit when account is about to be credited with pending cash.
+ * long-equity-value/long-derivative-value: Describe the value of your positions, where derivative means options.
+ * equity-buying-power/derivative-buying-power: Account's buying power for equities and derivatives.
+ */
 export interface Balance {
     'account-number': string;
     'cash-balance': string;
@@ -26,26 +35,25 @@ export interface Balance {
     'cash-available-to-withdraw': string;
     'day-trade-excess': string;
     'pending-cash': string;
-    'pending-cash-effect': string;
+    'pending-cash-effect': 'Credit' | 'Debit' | 'None';
     'long-cryptocurrency-value': string;
     'short-cryptocurrency-value': string;
     'cryptocurrency-margin-requirement': string;
     'unsettled-cryptocurrency-fiat-amount': string;
-    'unsettled-cryptocurrency-fiat-effect': string;
+    'unsettled-cryptocurrency-fiat-effect': 'Credit' | 'Debit' | 'None';
     'closed-loop-available-balance': string;
     'equity-offering-margin-requirement': string;
     'long-bond-value': string;
     'bond-margin-requirement': string;
     'used-derivative-buying-power': string;
     'snapshot-date': string;
-    'reg-t-margin-requirement'?: string;
-    'futures-overnight-margin-requirement'?: string;
-    'futures-intraday-margin-requirement'?: string;
-    'maintenance-excess'?: string;
-    'pending-margin-interest'?: string;
-    'effective-cryptocurrency-buying-power'?: string;
-    'updated-at'?: string;
-    'time-of-day'?: string;
+    'reg-t-margin-requirement': string;
+    'futures-overnight-margin-requirement': string;
+    'futures-intraday-margin-requirement': string;
+    'maintenance-excess': string;
+    'pending-margin-interest': string;
+    'effective-cryptocurrency-buying-power': string;
+    'updated-at': string;
 }
 
 export interface BalanceResponse {
@@ -53,9 +61,16 @@ export interface BalanceResponse {
     context: string;
 }
 
-export interface BalanceSnapshotsResponse {
+export interface BalanceSnapshot extends Balance {
+    'time-of-day': 'BOD' | 'EOD';
+}
+
+export interface BalanceSnapshotResponse {
     data: {
-        items: Balance[];
+        items: BalanceSnapshot[];
     };
     context: string;
 }
+
+// Helper type for effects
+export type BalanceEffect = 'Credit' | 'Debit' | 'None';

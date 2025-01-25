@@ -1,8 +1,9 @@
+// Account types from API docs
 export interface Account {
     'account-number': string;
     'external-id': string;
     'opened-at': string;
-    nickname: string;
+    'nickname': string;
     'account-type-name': string;
     'day-trader-status': boolean;
     'is-closed': boolean;
@@ -10,9 +11,9 @@ export interface Account {
     'is-firm-proprietary': boolean;
     'is-futures-approved': boolean;
     'is-test-drive': boolean;
-    'margin-or-cash': string;
+    'margin-or-cash': 'Margin' | 'Cash';
     'is-foreign': boolean;
-    'funding-date': string;
+    'funding-date': string;  // format: YYYY-MM-DD
     'investment-objective': string;
     'futures-account-purpose': string;
     'suitable-options-level': string;
@@ -21,7 +22,7 @@ export interface Account {
 
 export interface AccountWithAuthority {
     account: Account;
-    'authority-level': string;
+    'authority-level': 'owner' | 'trade-only' | 'read-only';
 }
 
 export interface CustomerAccountsResponse {

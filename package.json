@@ -5,8 +5,22 @@
   "module": "dist/tastytrade-api.js",
   "types": "dist/tastytrade-api.d.ts",
   "exports": {
-    "types": "./dist/tastytrade-api.d.ts",
-    "default": "./dist/tastytrade-api.js"
+    ".": {
+      "types": "./dist/tastytrade-api.d.ts",
+      "default": "./dist/tastytrade-api.js"
+    },
+    "./services/*": {
+      "types": "./lib/services/*.ts",
+      "default": "./lib/services/*.js"
+    },
+    "./types/*": {
+      "types": "./lib/types/*.ts",
+      "default": "./lib/types/*.js"
+    },
+    "./utils/*": {
+      "types": "./lib/utils/*.ts",
+      "default": "./lib/utils/*.js"
+    }
   },
   "repository": "https://github.com/tastytrade/tastytrade-api-js",
   "license": "MIT",
@@ -17,9 +31,10 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "test": "jest -i --restoreMocks",
-    "unit-test": "node --experimental-vm-modules ./node_modules/.bin/jest tests/unit",
-    "integration-test": "node --experimental-vm-modules ./node_modules/.bin/jest tests/integration",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js -i --restoreMocks",
+    "test:file": "node --experimental-vm-modules node_modules/jest/bin/jest.js -i --restoreMocks",
+    "unit-test": "node --experimental-vm-modules node_modules/jest/bin/jest.js -i --restoreMocks tests/unit",
+    "integration-test": "node --experimental-vm-modules node_modules/jest/bin/jest.js -i --restoreMocks tests/integration",
     "lint": "eslint lib/** tests/**",
     "prepublishOnly": "npm run unit-test && npm run build",
     "postpack": "git tag -a $npm_package_version -m $npm_package_version && git push origin $npm_package_version"

@@ -1,6 +1,6 @@
-import MarginRequirementsService from "../../../lib/services/margin-requirements-service";
-import TastytradeHttpClient from "../../../lib/services/tastytrade-http-client";
-import SessionService from "../../../lib/services/session-service";
+import MarginRequirementsService from "../../../lib/services/margin-requirements-service.js";
+import TastytradeHttpClient from "../../../lib/services/tastytrade-http-client.js";
+import SessionService from "../../../lib/services/session-service.js";
 
 const client = new TastytradeHttpClient(process.env.BASE_URL!)
 const marginRequirementsService = new MarginRequirementsService(client)

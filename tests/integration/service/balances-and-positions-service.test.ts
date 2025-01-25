@@ -1,6 +1,6 @@
-import BalancesAndPositionsService from "../../../lib/services/balances-and-positions-service";
-import TastytradeHttpClient from "../../../lib/services/tastytrade-http-client";
-import SessionService from "../../../lib/services/session-service";
+import BalancesAndPositionsService from "../../../lib/services/balances-and-positions-service.js";
+import TastytradeHttpClient from "../../../lib/services/tastytrade-http-client.js";
+import SessionService from "../../../lib/services/session-service.js";
 
 const client = new TastytradeHttpClient(process.env.BASE_URL!)
 const balancesAndPositionsService = new BalancesAndPositionsService(client)
