@@ -19,10 +19,22 @@ function interpretStreamerState(state: STREAMER_STATE) {
   }
 }
 
+interface Message {
+  type: string | null;
+  action: string | object;
+  status: string | object;
+  timestamp: Date;
+}
+const formatMessageValue = (value: any): string => {
+  if (value === null || value === undefined) return '-';
+  if (typeof value === 'object') return JSON.stringify(value);
+  return String(value);
+}
 const AccountStreamerPage: NextPage = () => {
   const context = useContext(AppContext);
   const accountStreamer = context.tastytradeApi.accountStreamer
   const [streamerState, setStreamerState] = useState(STREAMER_STATE.Closed)
+  const [messages, setMessages] = useState<Message[]>([])
 
   useEffect(() => {
     setStreamerState(accountStreamer.streamerState)
@@ -43,6 +55,14 @@ const AccountStreamerPage: NextPage = () => {
     })
 
     const streamerMessageDisposer = accountStreamer.addMessageObserver((type, action, status) => {
+      const newMessage: Message = {
+        type,
+        action,
+        status,
+        timestamp: new Date()
+      }
+      setMessages(prev => [newMessage, ...prev])
+
       if (!_.isNil(type)) {
         toast.success(`Received ${type} message`)
       } else {
@@ -109,6 +129,38 @@ const AccountStreamerPage: NextPage = () => {
           ))}
         </div>
         {_renderSubscribe()}
+        <div className="mt-8">
+          <h3 className="text-lg font-bold mb-4">Message History</h3>
+          <div className="border rounded-lg overflow-hidden">
+            <table className="min-w-full">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="px-4 py-2 text-left">Time</th>
+                  <th className="px-4 py-2 text-left">Type</th>
+                  <th className="px-4 py-2 text-left">Action</th>
+                  <th className="px-4 py-2 text-left">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {messages.map((message, index) => (
+                  <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                    <td className="px-4 py-2">{message.timestamp.toLocaleTimeString()}</td>
+                    <td className="px-4 py-2">{formatMessageValue(message.type)}</td>
+                    <td className="px-4 py-2">{formatMessageValue(message.action)}</td>
+                    <td className="px-4 py-2">{formatMessageValue(message.status)}</td>
+                  </tr>
+                ))}
+                {messages.length === 0 && (
+                  <tr>
+                    <td colSpan={4} className="px-4 py-4 text-center text-gray-500">
+                      No messages received yet
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </main>
     </div>
   )
