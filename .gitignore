@@ -8,7 +8,8 @@
 # testing
 /coverage
 
-/dist/
+# include dist in the repository
+# /dist/
 
 # misc
 .DS_Store
